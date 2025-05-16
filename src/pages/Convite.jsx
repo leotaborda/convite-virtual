@@ -203,7 +203,7 @@ const ConviteMelhorado = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="font-semibold text-purple-600">Quando:</span>{" "}
+                  <span className="text-black-900 font-semibold text-purple-600">Quando:</span>{" "}
                   28 de junho de 2025
                 </p>
               </div>
@@ -226,7 +226,7 @@ const ConviteMelhorado = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="font-semibold text-purple-600">
+                  <span className="text-black-900 font-semibold text-purple-600">
                     Horário:
                   </span>{" "}
                   17h
@@ -257,7 +257,7 @@ const ConviteMelhorado = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="font-semibold text-purple-600">Local:</span>{" "}
+                  <span className="text-black-900 font-semibold text-purple-600">Local:</span>{" "}
                   Condomínio Parque das Flores
                 </p>
               </div>
@@ -328,7 +328,7 @@ const ConviteMelhorado = () => {
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 placeholder="Digite seu nome"
-                className="w-full h-12 px-4 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                className="text-black-900 w-full h-12 px-4 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
               />
             </div>
 
@@ -336,7 +336,7 @@ const ConviteMelhorado = () => {
               <button
                 onClick={() => {
                   const jaEnviado = localStorage.getItem("presenca_enviada");
-                  if (jaEnviado) return; // impede envio duplicado
+                  if (jaEnviado) return;
 
                   if (nome.trim()) {
                     const nomeFormatado = formatarNome(nome);
