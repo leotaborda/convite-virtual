@@ -203,7 +203,7 @@ const Convite = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="text-black-900 font-semibold text-purple-600">Quando:</span>{" "}
+                  <span className="!bg-white !text-black font-semibold text-purple-600">Quando:</span>{" "}
                   28 de junho de 2025
                 </p>
               </div>
@@ -226,7 +226,7 @@ const Convite = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="text-black-900 font-semibold text-purple-600">
+                  <span className="!bg-white !text-black font-semibold text-purple-600">
                     Horário:
                   </span>{" "}
                   17h
@@ -257,7 +257,7 @@ const Convite = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="text-black-900 font-semibold text-purple-600">Local:</span>{" "}
+                  <span className="!bg-white !text-black font-semibold text-purple-600">Local:</span>{" "}
                   Condomínio Parque das Flores
                 </p>
               </div>
@@ -328,7 +328,7 @@ const Convite = () => {
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 placeholder="Digite seu nome"
-                className="text-black-900 w-full h-12 px-4 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                className="!bg-white !text-black w-full h-12 px-4 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
               />
             </div>
 
@@ -350,7 +350,7 @@ const Convite = () => {
                 disabled={!!localStorage.getItem("presenca_enviada")}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 ${
                   confirmacao === "sim"
-                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white"
+                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white !bg-white !text-black"
                     : "bg-gray-100 hover:bg-gradient-to-r hover:from-green-400 hover:to-emerald-500 hover:text-white text-gray-700"
                 }`}
               >
@@ -373,7 +373,7 @@ const Convite = () => {
                 disabled={!!localStorage.getItem("presenca_enviada")}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 ${
                   confirmacao === "nao"
-                    ? "bg-gradient-to-r from-red-500 to-pink-600 text-white"
+                    ? "bg-gradient-to-r from-red-500 to-pink-600 text-white !bg-white !text-black"
                     : "bg-gray-100 hover:bg-gradient-to-r hover:from-red-400 hover:to-pink-500 hover:text-white text-gray-700"
                 }`}
               >
