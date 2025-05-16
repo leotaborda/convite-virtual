@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const ConviteMelhorado = () => {
+const Convite = () => {
   const [dias, setDias] = useState(0);
   const [horas, setHoras] = useState(0);
   const [minutos, setMinutos] = useState(0);
@@ -422,4 +422,4 @@ const ConviteMelhorado = () => {
   );
 };
 
-export default ConviteMelhorado;
+export default Convite;
