@@ -46,7 +46,7 @@
 @media (prefers-color-scheme: dark) {
   html, body {
     color-scheme: light;
-    background-color: white !important;
+    background-color: transparent !important;
     color: black !important;
   }
 }
