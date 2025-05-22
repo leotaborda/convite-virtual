@@ -49,4 +49,8 @@
     background-color: transparent !important;
     color: black !important;
   }
+
+  .div-button button{
+    background-color: red !important;
+  }
 }

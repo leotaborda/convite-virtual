@@ -350,7 +350,7 @@ const Convite = () => {
                 disabled={!!localStorage.getItem("presenca_enviada")}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 ${
                   confirmacao === "sim"
-                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white !bg-white !text-black"
+                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white"
                     : "bg-gray-100 hover:bg-gradient-to-r hover:from-green-400 hover:to-emerald-500 hover:text-white text-gray-700"
                 }`}
               >
