@@ -8,6 +8,10 @@ const Convite = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [confirmacao, setConfirmacao] = useState(null);
   const [nome, setNome] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [contadorPopup, setContadorPopup] = useState(5);
+  const [nomeConfirmado, setNomeConfirmado] = useState("");
+  const [tipoConfirmacao, setTipoConfirmacao] = useState("");
 
   useEffect(() => {
     const dataFesta = new Date("June 28, 2025 17:00:00").getTime();
@@ -36,42 +40,102 @@ const Convite = () => {
     return () => clearInterval(intervalo);
   }, []);
 
+  useEffect(() => {
+    let intervaloPopup;
+    if (showPopup && contadorPopup > 0) {
+      intervaloPopup = setInterval(() => {
+        setContadorPopup(prev => prev - 1);
+      }, 1000);
+    } else if (contadorPopup === 0) {
+      setShowPopup(false);
+    }
+
+    return () => clearInterval(intervaloPopup);
+  }, [showPopup, contadorPopup]);
+
   const handleConfetti = () => {
     setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 4000);
+    setTimeout(() => setShowConfetti(false), 10000);
   };
 
   const Confetti = () => {
     return (
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50 overflow-hidden">
-        {Array.from({ length: 150 }).map((_, index) => (
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-40 overflow-hidden">
+        {Array.from({ length: 200 }).map((_, index) => (
           <div
             key={index}
-            className="absolute"
+            className="absolute animate-fall"
             style={{
               left: `${Math.random() * 100}%`,
-              top: `-30px`,
-              width: `${Math.random() * 12 + 8}px`,
-              height: `${Math.random() * 12 + 8}px`,
+              top: `-50px`,
+              width: `${Math.random() * 15 + 10}px`,
+              height: `${Math.random() * 15 + 10}px`,
               backgroundColor: [
-                "#FF69B4",
-                "#FFD700",
-                "#FF6347",
-                "#00CED1",
-                "#9370DB",
-                "#3E42F8",
-                "#87CEEB",
-              ][Math.floor(Math.random() * 7)],
-              borderRadius:
-                Math.random() > 0.5
-                  ? "50%"
-                  : `${Math.floor(Math.random() * 5)}px`,
+                "#FF69B4", "#FFD700", "#FF6347", "#00CED1", 
+                "#9370DB", "#3E42F8", "#87CEEB", "#FF1493",
+                "#32CD32", "#FF4500", "#1E90FF", "#FFB6C1"
+              ][Math.floor(Math.random() * 12)],
+              borderRadius: Math.random() > 0.6 ? "50%" : `${Math.floor(Math.random() * 8)}px`,
               transform: `rotate(${Math.random() * 360}deg)`,
-              animation: `fall ${Math.random() * 4 + 3}s linear forwards`,
-              opacity: Math.random() * 0.5 + 0.5,
+              animation: `confetti-fall ${Math.random() * 3 + 2}s linear forwards`,
+              animationDelay: `${Math.random() * 2}s`,
+              opacity: Math.random() * 0.4 + 0.6,
             }}
           />
         ))}
+      </div>
+    );
+  };
+
+  const PopupConfirmacao = () => {
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 relative">
+          <div className="text-center">
+            {tipoConfirmacao === "sim" ? (
+              <>
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="text-4xl">🎉</div>
+                </div>
+                <h2 className="text-3xl font-bold text-green-600 mb-3">
+                  Confirmado!
+                </h2>
+                <p className="text-lg text-gray-700 mb-2">
+                  <span className="font-bold text-purple-600">{nomeConfirmado}</span>
+                </p>
+                <p className="text-gray-600 mb-6">
+                  Sua presença foi confirmada com sucesso! 
+                  <br />Estamos ansiosos para te ver! 🍕
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="text-4xl">😢</div>
+                </div>
+                <h2 className="text-3xl font-bold text-red-600 mb-3">
+                  Registrado!
+                </h2>
+                <p className="text-lg text-gray-700 mb-2">
+                  <span className="font-bold text-purple-600">{nomeConfirmado}</span>
+                </p>
+                <p className="text-gray-600 mb-6">
+                  Sua resposta foi registrada.
+                  <br />Você vai fazer muita falta! 💜
+                </p>
+              </>
+            )}
+            
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6 border border-purple-100">
+              <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">
+                {contadorPopup}
+              </div>
+              <p className="text-sm text-gray-600">
+                Esta janela será fechada automaticamente
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     );
   };
@@ -103,29 +167,27 @@ const Convite = () => {
       .join(" ");
   };
 
-  useEffect(() => {
-    const enviado = localStorage.getItem("presenca_enviada");
-    if (enviado) {
-      setConfirmacao(enviado);
-    }
-  }, []);
-
   const handleConfirmacao = (tipo) => {
     const nomeFormatado = formatarNome(nome);
     if (!nomeFormatado) return;
 
-    if (!localStorage.getItem("presenca_enviada")) {
-      setConfirmacao(tipo);
-      enviarParaPlanilha(nomeFormatado, tipo);
-      localStorage.setItem("presenca_enviada", tipo);
-      setNome(nomeFormatado);
-      if (tipo === "sim") handleConfetti?.();
+    setNomeConfirmado(nomeFormatado);
+    setTipoConfirmacao(tipo);
+    setConfirmacao(tipo);
+    enviarParaPlanilha(nomeFormatado, tipo === "sim" ? "Sim" : "Não");
+    
+    if (tipo === "sim") {
+      handleConfetti();
     }
+    
+    setShowPopup(true);
+    setContadorPopup(5);
   };
 
   return (
     <div className="relative min-w-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 font-sans p-6 flex items-center justify-center">
       {showConfetti && <Confetti />}
+      {showPopup && <PopupConfirmacao />}
 
       <div className="w-full max-w-lg mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl">
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-5 text-white relative">
@@ -203,7 +265,7 @@ const Convite = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="!bg-white !text-black font-semibold text-purple-600">Quando:</span>{" "}
+                  <span className="font-semibold text-purple-600">Quando:</span>{" "}
                   28 de junho de 2025
                 </p>
               </div>
@@ -226,7 +288,7 @@ const Convite = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="!bg-white !text-black font-semibold text-purple-600">
+                  <span className="font-semibold text-purple-600">
                     Horário:
                   </span>{" "}
                   17h
@@ -257,7 +319,7 @@ const Convite = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="!bg-white !text-black font-semibold text-purple-600">Local:</span>{" "}
+                  <span className="font-semibold text-purple-600">Local:</span>{" "}
                   Condomínio Parque das Flores
                 </p>
               </div>
@@ -271,7 +333,7 @@ const Convite = () => {
               href="https://www.google.com/maps/place/Condom%C3%ADnio+Parque+Das+Flores/@-22.8063363,-47.2779402,17z/data=!3m1!4b1!4m6!3m5!1s0x94c897e1ae061d1d:0x8bfdc97cbdd437a6!8m2!3d-22.8063363!4d-47.2753653!16s%2Fg%2F11bv30kf2j?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               rel="noopener noreferrer"
-              className="border-2 border-purple-500 inline-block mt-7 bg-gradient-to-r hover:from-blue-100 hover:to-purple-200 text-white font-medium py-2 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+              className="border-2 border-purple-500 inline-block mt-7 bg-gradient-to-r hover:from-blue-100 hover:to-purple-200 text-purple-600 font-medium py-2 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
             >
               📍 Ver no Google Maps
             </a>
@@ -328,70 +390,33 @@ const Convite = () => {
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 placeholder="Digite seu nome"
-                className="!bg-white !text-black w-full h-12 px-4 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                className="w-full h-12 px-4 border-2 border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 text-gray-700"
               />
             </div>
 
             <div className="flex gap-4 justify-center">
               <button
                 onClick={() => {
-                  const jaEnviado = localStorage.getItem("presenca_enviada");
-                  if (jaEnviado) return;
-
                   if (nome.trim()) {
-                    const nomeFormatado = formatarNome(nome);
-                    setNome(nomeFormatado);
-                    setConfirmacao("sim");
-                    enviarParaPlanilha(nomeFormatado, "Sim");
-                    localStorage.setItem("presenca_enviada", "Sim");
-                    handleConfetti();
+                    handleConfirmacao("sim");
                   }
                 }}
-                disabled={!!localStorage.getItem("presenca_enviada")}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 ${
-                  confirmacao === "sim"
-                    ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white"
-                    : "bg-gray-100 hover:bg-gradient-to-r hover:from-green-400 hover:to-emerald-500 hover:text-white text-gray-700"
-                }`}
+                className="px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-gray-100 hover:bg-gradient-to-r hover:from-green-400 hover:to-emerald-500 hover:text-white text-gray-700"
               >
                 Sim, eu vou! 🎉
               </button>
 
               <button
                 onClick={() => {
-                  const jaEnviado = localStorage.getItem("presenca_enviada");
-                  if (jaEnviado) return;
-
                   if (nome.trim()) {
-                    const nomeFormatado = formatarNome(nome);
-                    setNome(nomeFormatado);
-                    setConfirmacao("nao");
-                    enviarParaPlanilha(nomeFormatado, "Não");
-                    localStorage.setItem("presenca_enviada", "Não");
+                    handleConfirmacao("nao");
                   }
                 }}
-                disabled={!!localStorage.getItem("presenca_enviada")}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 ${
-                  confirmacao === "nao"
-                    ? "bg-gradient-to-r from-red-500 to-pink-600 text-white !bg-white !text-black"
-                    : "bg-gray-100 hover:bg-gradient-to-r hover:from-red-400 hover:to-pink-500 hover:text-white text-gray-700"
-                }`}
+                className="px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-gray-100 hover:bg-gradient-to-r hover:from-red-400 hover:to-pink-500 hover:text-white text-gray-700"
               >
                 Infelizmente não 😢
               </button>
             </div>
-
-            {confirmacao === "sim" && (
-              <div className="mt-4 text-center text-green-600 font-medium bg-green-50 p-3 rounded-lg border border-green-200 animate-pulse">
-                Eba! {nome}, estamos ansiosos para te ver lá!
-              </div>
-            )}
-
-            {confirmacao === "nao" && (
-              <div className="mt-4 text-center text-red-600 font-medium bg-red-50 p-3 rounded-lg border border-red-200">
-                Que pena, {nome}! Você vai fazer falta.
-              </div>
-            )}
           </div>
 
           <div className="mt-8 text-center">
@@ -406,6 +431,17 @@ const Convite = () => {
       </div>
 
       <style jsx>{`
+        @keyframes confetti-fall {
+          0% {
+            transform: translateY(-50px) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+        
         @keyframes fall {
           0% {
             transform: translateY(0) rotate(0deg);
@@ -414,8 +450,9 @@ const Convite = () => {
             transform: translateY(100vh) rotate(360deg);
           }
         }
+        
         .animate-fall {
-          animation: fall 4s linear forwards;
+          animation: confetti-fall 4s linear forwards;
         }
       `}</style>
     </div>
