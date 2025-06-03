@@ -1,6 +1,10 @@
+// src/pages/Convite.jsx
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Convite = () => {
+  const navigate = useNavigate();
+
   const [dias, setDias] = useState(0);
   const [horas, setHoras] = useState(0);
   const [minutos, setMinutos] = useState(0);
@@ -9,7 +13,6 @@ const Convite = () => {
   const [confirmacao, setConfirmacao] = useState(null);
   const [nome, setNome] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-  const [contadorPopup, setContadorPopup] = useState(5);
   const [nomeConfirmado, setNomeConfirmado] = useState("");
   const [tipoConfirmacao, setTipoConfirmacao] = useState("");
 
@@ -19,6 +22,15 @@ const Convite = () => {
     const intervalo = setInterval(() => {
       const agora = new Date().getTime();
       const diferenca = dataFesta - agora;
+
+      if (diferenca < 0) {
+        clearInterval(intervalo);
+        setDias(0);
+        setHoras(0);
+        setMinutos(0);
+        setSegundos(0);
+        return;
+      }
 
       const d = Math.floor(diferenca / (1000 * 60 * 60 * 24));
       const h = Math.floor(
@@ -31,114 +43,111 @@ const Convite = () => {
       setHoras(h);
       setMinutos(m);
       setSegundos(s);
-
-      if (diferenca < 0) {
-        clearInterval(intervalo);
-      }
     }, 1000);
 
     return () => clearInterval(intervalo);
   }, []);
-
-  useEffect(() => {
-    let intervaloPopup;
-    if (showPopup && contadorPopup > 0) {
-      intervaloPopup = setInterval(() => {
-        setContadorPopup(prev => prev - 1);
-      }, 1000);
-    } else if (contadorPopup === 0) {
-      setShowPopup(false);
-    }
-
-    return () => clearInterval(intervaloPopup);
-  }, [showPopup, contadorPopup]);
 
   const handleConfetti = () => {
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 10000);
   };
 
-  const Confetti = () => {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-40 overflow-hidden">
-        {Array.from({ length: 200 }).map((_, index) => (
-          <div
-            key={index}
-            className="absolute animate-fall"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `-50px`,
-              width: `${Math.random() * 15 + 10}px`,
-              height: `${Math.random() * 15 + 10}px`,
-              backgroundColor: [
-                "#FF69B4", "#FFD700", "#FF6347", "#00CED1", 
-                "#9370DB", "#3E42F8", "#87CEEB", "#FF1493",
-                "#32CD32", "#FF4500", "#1E90FF", "#FFB6C1"
-              ][Math.floor(Math.random() * 12)],
-              borderRadius: Math.random() > 0.6 ? "50%" : `${Math.floor(Math.random() * 8)}px`,
-              transform: `rotate(${Math.random() * 360}deg)`,
-              animation: `confetti-fall ${Math.random() * 3 + 2}s linear forwards`,
-              animationDelay: `${Math.random() * 2}s`,
-              opacity: Math.random() * 0.4 + 0.6,
-            }}
-          />
-        ))}
-      </div>
-    );
-  };
+  const Confetti = () => (
+    <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-40 overflow-hidden">
+      {Array.from({ length: 200 }).map((_, index) => (
+        <div
+          key={index}
+          className="absolute animate-fall"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `-50px`,
+            width: `${Math.random() * 15 + 10}px`,
+            height: `${Math.random() * 15 + 10}px`,
+            backgroundColor: [
+              "#FF69B4",
+              "#FFD700",
+              "#FF6347",
+              "#00CED1",
+              "#9370DB",
+              "#3E42F8",
+              "#87CEEB",
+              "#FF1493",
+              "#32CD32",
+              "#FF4500",
+              "#1E90FF",
+              "#FFB6C1",
+            ][Math.floor(Math.random() * 12)],
+            borderRadius:
+              Math.random() > 0.6
+                ? "50%"
+                : `${Math.floor(Math.random() * 8)}px`,
+            transform: `rotate(${Math.random() * 360}deg)`,
+            animation: `confetti-fall ${Math.random() * 3 + 2}s linear forwards`,
+            animationDelay: `${Math.random() * 2}s`,
+            opacity: Math.random() * 0.4 + 0.6,
+          }}
+        />
+      ))}
+    </div>
+  );
 
-  const PopupConfirmacao = () => {
-    return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 relative">
-          <div className="text-center">
-            {tipoConfirmacao === "sim" ? (
-              <>
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="text-4xl">🎉</div>
-                </div>
-                <h2 className="text-3xl font-bold text-green-600 mb-3">
-                  Confirmado!
-                </h2>
-                <p className="text-lg text-gray-700 mb-2">
-                  <span className="font-bold text-purple-600">{nomeConfirmado}</span>
-                </p>
-                <p className="text-gray-600 mb-6">
-                  Sua presença foi confirmada com sucesso! 
-                  <br />Estamos ansiosos para te ver! 🍕
-                </p>
-              </>
-            ) : (
-              <>
-                <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="text-4xl">😢</div>
-                </div>
-                <h2 className="text-3xl font-bold text-red-600 mb-3">
-                  Registrado!
-                </h2>
-                <p className="text-lg text-gray-700 mb-2">
-                  <span className="font-bold text-purple-600">{nomeConfirmado}</span>
-                </p>
-                <p className="text-gray-600 mb-6">
-                  Sua resposta foi registrada.
-                  <br />Você vai fazer muita falta! 💜
-                </p>
-              </>
-            )}
-            
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6 border border-purple-100">
-              <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">
-                {contadorPopup}
+  const PopupConfirmacao = () => (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 relative">
+        <div className="text-center">
+          {tipoConfirmacao === "sim" ? (
+            <>
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="text-4xl">🎉</div>
               </div>
-              <p className="text-sm text-gray-600">
-                Esta janela será fechada automaticamente
+              <h2 className="text-3xl font-bold text-green-600 mb-3">
+                Confirmado!
+              </h2>
+              <p className="text-lg text-gray-700 mb-2">
+                <span className="font-bold text-purple-600">{nomeConfirmado}</span>
               </p>
-            </div>
-          </div>
+              <p className="text-gray-600 mb-6">
+                Sua presença foi confirmada com sucesso! <br />
+                Estamos ansiosos para te ver! 🍕
+              </p>
+
+              <button
+                onClick={() => {
+                  setShowPopup(false);
+                  navigate("/presentes");
+                }}
+                className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                🎁 Ver Lista de Presentes
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="text-4xl">😢</div>
+              </div>
+              <h2 className="text-3xl font-bold text-red-600 mb-3">Registrado!</h2>
+              <p className="text-lg text-gray-700 mb-2">
+                <span className="font-bold text-purple-600">{nomeConfirmado}</span>
+              </p>
+              <p className="text-gray-600 mb-6">
+                Sua resposta foi registrada. <br />
+                Você vai fazer muita falta! 💜
+              </p>
+            </>
+          )}
+
+          <button
+            onClick={() => setShowPopup(false)}
+            className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-6 rounded-lg transition-all duration-300"
+          >
+            Fechar
+          </button>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   const enviarParaPlanilha = async (nome, confirmacao) => {
     const url =
@@ -175,13 +184,12 @@ const Convite = () => {
     setTipoConfirmacao(tipo);
     setConfirmacao(tipo);
     enviarParaPlanilha(nomeFormatado, tipo === "sim" ? "Sim" : "Não");
-    
+
     if (tipo === "sim") {
       handleConfetti();
     }
-    
+
     setShowPopup(true);
-    setContadorPopup(5);
   };
 
   return (
@@ -288,9 +296,7 @@ const Convite = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="font-semibold text-purple-600">
-                    Horário:
-                  </span>{" "}
+                  <span className="font-semibold text-purple-600">Horário:</span>{" "}
                   17:30
                 </p>
               </div>
@@ -325,7 +331,8 @@ const Convite = () => {
               </div>
 
               <p className="text-gray-600 text-sm mt-[-15px]">
-                Av. Cabo Pedro Hoffman, 235 - Res. Real Park Sumaré, Sumaré - SP, 13178-574
+                Av. Cabo Pedro Hoffman, 235 - Res. Real Park Sumaré, Sumaré - SP,
+                13178-574
               </p>
             </div>
 
@@ -339,32 +346,24 @@ const Convite = () => {
             </a>
           </div>
 
-          {/* Seção de Pagamento */}
           <div className="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
             <h3 className="text-center text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 mb-4">
               💰 Valor e Pagamento
             </h3>
-            
+
             <div className="text-center mb-6">
-              <div className="text-4xl font-bold text-green-600 mb-2">
-                R$ 50,00
-              </div>
-              <p className="text-gray-900 text-sm">
-                por pessoa (rodízio completo)
-              </p>
+              <div className="text-4xl font-bold text-green-600 mb-2">R$ 50,00</div>
+              <p className="text-gray-900 text-sm">por pessoa (rodízio completo)</p>
             </div>
 
             <div className="bg-white rounded-lg p-4 shadow-inner">
               <h4 className="font-semibold text-gray-700 mb-3 text-center">
                 Pague via PIX
               </h4>
-              
-              {/* Espaço para QR Code */}
+
               <div className="flex justify-center mb-4">
                 <div className="w-48 h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                  <div className="text-center text-gray-500">
-                    <img src="..\src\assets\images\qr_code.png" alt="" />
-                  </div>
+                  <img src="..\src\assets\images\qr_code.png" alt="" />
                 </div>
               </div>
 
@@ -372,17 +371,28 @@ const Convite = () => {
                 <p className="text-center font-medium text-gray-700 mb-3">
                   Dados para transferência manual:
                 </p>
-                
+
                 <div className="bg-gray-50 p-3 rounded-lg space-y-1">
-                  <p><span className="font-medium">Banco:</span> MERCADO PAGO</p>
-                  <p><span className="font-medium">Chave PIX:</span> gabriellly.lisboa@gmail.com</p>
-                  <p><span className="font-medium">CPF:</span> ***.624.418-**</p>
-                  <p><span className="font-medium">Nome:</span> Gabrielly de Sousa Lisboa</p>
+                  <p>
+                    <span className="font-medium">Banco:</span> MERCADO PAGO
+                  </p>
+                  <p>
+                    <span className="font-medium">Chave PIX:</span>{" "}
+                    gabriellly.lisboa@gmail.com
+                  </p>
+                  <p>
+                    <span className="font-medium">CPF:</span> ***.624.418-**
+                  </p>
+                  <p>
+                    <span className="font-medium">Nome:</span> Gabrielly de Sousa
+                    Lisboa
+                  </p>
                 </div>
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
                   <p className="text-yellow-800 text-xs font-medium">
-                    💡 Importante: Envie o comprovante de pagamento confirmando sua participação!
+                    💡 Importante: Envie o comprovante de pagamento confirmando sua
+                    participação!
                   </p>
                 </div>
               </div>
@@ -414,17 +424,13 @@ const Convite = () => {
                 <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
                   {minutos}
                 </div>
-                <div className="text-xs text-gray-600 uppercase tracking-wider">
-                  min
-                </div>
+                <div className="text-xs text-gray-600 uppercase tracking-wider">min</div>
               </div>
               <div className="text-center p-2">
                 <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
                   {segundos}
                 </div>
-                <div className="text-xs text-gray-600 uppercase tracking-wider">
-                  seg
-                </div>
+                <div className="text-xs text-gray-600 uppercase tracking-wider">seg</div>
               </div>
             </div>
           </div>
@@ -491,16 +497,7 @@ const Convite = () => {
             opacity: 0;
           }
         }
-        
-        @keyframes fall {
-          0% {
-            transform: translateY(0) rotate(0deg);
-          }
-          100% {
-            transform: translateY(100vh) rotate(360deg);
-          }
-        }
-        
+
         .animate-fall {
           animation: confetti-fall 4s linear forwards;
         }
