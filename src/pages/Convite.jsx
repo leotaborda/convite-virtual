@@ -14,7 +14,7 @@ const Convite = () => {
   const [tipoConfirmacao, setTipoConfirmacao] = useState("");
 
   useEffect(() => {
-    const dataFesta = new Date("June 28, 2025 17:00:00").getTime();
+    const dataFesta = new Date("July 04, 2025 17:30:00").getTime();
 
     const intervalo = setInterval(() => {
       const agora = new Date().getTime();
@@ -266,7 +266,7 @@ const Convite = () => {
                 </div>
                 <p className="text-lg font-medium">
                   <span className="font-semibold text-purple-600">Quando:</span>{" "}
-                  28 de junho de 2025
+                  04 de Julho de 2025
                 </p>
               </div>
 
@@ -291,7 +291,7 @@ const Convite = () => {
                   <span className="font-semibold text-purple-600">
                     Horário:
                   </span>{" "}
-                  17h
+                  17:30
                 </p>
               </div>
 
@@ -320,17 +320,17 @@ const Convite = () => {
                 </div>
                 <p className="text-lg font-medium">
                   <span className="font-semibold text-purple-600">Local:</span>{" "}
-                  Condomínio Parque das Flores
+                  Condomínio Residencial Áurea
                 </p>
               </div>
 
               <p className="text-gray-600 text-sm mt-[-15px]">
-                Rua Itaipu, 140 - Residencial Guaíra - Sumare, SP
+                Av. Cabo Pedro Hoffman, 235 - Res. Real Park Sumaré, Sumaré - SP, 13178-574
               </p>
             </div>
 
             <a
-              href="https://www.google.com/maps/place/Condom%C3%ADnio+Parque+Das+Flores/@-22.8063363,-47.2779402,17z/data=!3m1!4b1!4m6!3m5!1s0x94c897e1ae061d1d:0x8bfdc97cbdd437a6!8m2!3d-22.8063363!4d-47.2753653!16s%2Fg%2F11bv30kf2j?entry=ttu&g_ep=EgoyMDI1MDUxMy4xIKXMDSoASAFQAw%3D%3D"
+              href="https://www.google.com/maps/place/Condom%C3%ADnio+Residencial+%C3%81urea/@-22.8298346,-47.2211005,18z/data=!4m6!3m5!1s0x94c8bc2c93e47c97:0x78bd373dd9fd7e51!8m2!3d-22.8299211!4d-47.2200169!16s%2Fg%2F11ckxw5l5c?entry=ttu&g_ep=EgoyMDI1MDYwMS4wIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               rel="noopener noreferrer"
               className="border-2 border-purple-500 inline-block mt-7 bg-gradient-to-r hover:from-blue-100 hover:to-purple-200 text-purple-600 font-medium py-2 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
@@ -339,8 +339,58 @@ const Convite = () => {
             </a>
           </div>
 
+          {/* Seção de Pagamento */}
+          <div className="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
+            <h3 className="text-center text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 mb-4">
+              💰 Valor e Pagamento
+            </h3>
+            
+            <div className="text-center mb-6">
+              <div className="text-4xl font-bold text-green-600 mb-2">
+                R$ 50,00
+              </div>
+              <p className="text-gray-900 text-sm">
+                por pessoa (rodízio completo)
+              </p>
+            </div>
+
+            <div className="bg-white rounded-lg p-4 shadow-inner">
+              <h4 className="font-semibold text-gray-700 mb-3 text-center">
+                Pague via PIX
+              </h4>
+              
+              {/* Espaço para QR Code */}
+              <div className="flex justify-center mb-4">
+                <div className="w-48 h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+                  <div className="text-center text-gray-500">
+                    <img src="..\src\assets\images\qr_code.png" alt="" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 text-sm text-gray-600">
+                <p className="text-center font-medium text-gray-700 mb-3">
+                  Dados para transferência manual:
+                </p>
+                
+                <div className="bg-gray-50 p-3 rounded-lg space-y-1">
+                  <p><span className="font-medium">Banco:</span> MERCADO PAGO</p>
+                  <p><span className="font-medium">Chave PIX:</span> gabriellly.lisboa@gmail.com</p>
+                  <p><span className="font-medium">CPF:</span> ***.624.418-**</p>
+                  <p><span className="font-medium">Nome:</span> Gabrielly de Sousa Lisboa</p>
+                </div>
+
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
+                  <p className="text-yellow-800 text-xs font-medium">
+                    💡 Importante: Envie o comprovante de pagamento confirmando sua participação!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="my-8">
-            <h3 className="text-center text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4 mt-[-10px]">
+            <h3 className="text-center text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
               Contagem regressiva
             </h3>
             <div className="flex justify-between bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 shadow-inner">
