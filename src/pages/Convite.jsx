@@ -53,6 +53,19 @@ const Convite = () => {
     setTimeout(() => setShowConfetti(false), 10000);
   };
 
+  const codigoPagamento = `00020126640014br.gov.bcb.pix0127gabriellly.lisboa@gmail.com0211Confra DS11520400005303986540555.005802BR5925Gabrielly de Sousa Lisboa6008Brasilia62230519daqr610587704497542630453F8`;
+
+  const copiarParaAreaDeTransferencia = () => {
+    // Cria um elemento input temporário para copiar o código
+    const textarea = document.createElement("textarea");
+    textarea.value = codigoPagamento;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+    alert("Código copiado para a área de transferência!");
+  };
+
   const Confetti = () => (
     <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-40 overflow-hidden">
       {Array.from({ length: 200 }).map((_, index) => (
@@ -83,7 +96,9 @@ const Convite = () => {
                 ? "50%"
                 : `${Math.floor(Math.random() * 8)}px`,
             transform: `rotate(${Math.random() * 360}deg)`,
-            animation: `confetti-fall ${Math.random() * 3 + 2}s linear forwards`,
+            animation: `confetti-fall ${
+              Math.random() * 3 + 2
+            }s linear forwards`,
             animationDelay: `${Math.random() * 2}s`,
             opacity: Math.random() * 0.4 + 0.6,
           }}
@@ -105,7 +120,9 @@ const Convite = () => {
                 Confirmado!
               </h2>
               <p className="text-lg text-gray-700 mb-2">
-                <span className="font-bold text-purple-600">{nomeConfirmado}</span>
+                <span className="font-bold text-purple-600">
+                  {nomeConfirmado}
+                </span>
               </p>
               <p className="text-gray-600 mb-6">
                 Sua presença foi confirmada com sucesso! <br />
@@ -127,9 +144,13 @@ const Convite = () => {
               <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <div className="text-4xl">😢</div>
               </div>
-              <h2 className="text-3xl font-bold text-red-600 mb-3">Registrado!</h2>
+              <h2 className="text-3xl font-bold text-red-600 mb-3">
+                Registrado!
+              </h2>
               <p className="text-lg text-gray-700 mb-2">
-                <span className="font-bold text-purple-600">{nomeConfirmado}</span>
+                <span className="font-bold text-purple-600">
+                  {nomeConfirmado}
+                </span>
               </p>
               <p className="text-gray-600 mb-6">
                 Sua resposta foi registrada. <br />
@@ -296,7 +317,9 @@ const Convite = () => {
                   </svg>
                 </div>
                 <p className="text-lg font-medium">
-                  <span className="font-semibold text-purple-600">Horário:</span>{" "}
+                  <span className="font-semibold text-purple-600">
+                    Horário:
+                  </span>{" "}
                   17:30
                 </p>
               </div>
@@ -331,8 +354,8 @@ const Convite = () => {
               </div>
 
               <p className="text-gray-600 text-sm mt-[-15px]">
-                Av. Cabo Pedro Hoffman, 235 - Res. Real Park Sumaré, Sumaré - SP,
-                13178-574
+                Av. Cabo Pedro Hoffman, 235 - Res. Real Park Sumaré, Sumaré -
+                SP, 13178-574
               </p>
             </div>
 
@@ -352,8 +375,16 @@ const Convite = () => {
             </h3>
 
             <div className="text-center mb-6">
-              <div className="text-4xl font-bold text-green-600 mb-2">R$ 55,00</div>
-              <p className="text-gray-900 text-sm">por pessoa (<span className="font-bold ">rodízio completo com bebidas e pizzas a vontade</span>)</p>
+              <div className="text-4xl font-bold text-green-600 mb-2">
+                R$ 55,00
+              </div>
+              <p className="text-gray-900 text-sm">
+                por pessoa (
+                <span className="font-bold ">
+                  rodízio completo com bebidas e pizzas a vontade
+                </span>
+                )
+              </p>
             </div>
 
             <div className="bg-white rounded-lg p-4 shadow-inner">
@@ -361,9 +392,22 @@ const Convite = () => {
                 Pague via PIX
               </h4>
 
-              <div className="flex justify-center mb-4">
-                <div className="w-48 h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                  <img src="/images/qr_code.png" alt="" />
+              <div className="shadow-sm">
+                <div className="flex justify-center mb-4">
+                  <div className="w-48 h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+                    <img src="/images/qr_code.png" alt="" />
+                  </div>
+                </div>
+
+                <div className="flex justify-center mb-4 mt-[-16px]">
+                  <div className="w-full max-w-lg mx-auto bg-white rounded-2xl p-6">
+                    <button
+                      onClick={copiarParaAreaDeTransferencia}
+                      className="flex justify-center w-full bg-gradient-to-r from-green-500 to-green-700 hover:from-green-700 hover:to-green-500 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+                    >
+                      Copiar Código de Pagamento
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -374,26 +418,36 @@ const Convite = () => {
 
                 <div className="bg-gray-50 p-3 rounded-lg space-y-1">
                   <p>
-                    <span className="font-medium">Banco:</span> MERCADO PAGO
+                    <span className="font-medium">Banco:</span>{" "}
+                    <span className="font-bold">MERCADO PAGO</span>
                   </p>
                   <p>
                     <span className="font-medium">Chave PIX:</span>{" "}
-                    gabriellly.lisboa@gmail.com
+                    <span className="underline">
+                      gabriellly.lisboa@gmail.com
+                    </span>
                   </p>
                   <p>
                     <span className="font-medium">CPF:</span> ***.624.418-**
                   </p>
                   <p>
-                    <span className="font-medium">Nome:</span> Gabrielly de Sousa
-                    Lisboa
+                    <span className="font-medium">Nome:</span>{" "}
+                    <span className="italic font-medium">
+                      Gabrielly de Sousa Lisboa
+                    </span>
                   </p>
                 </div>
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
                   <p className="text-yellow-800 text-xs font-medium">
-                    💡 Importante: Envie o comprovante de pagamento confirmando sua
-                    participação!
+                    💡 <span className="font-bold">Importante: </span>Envie o comprovante de pagamento confirmando
+                    sua participação!
                   </p>
+                  <div className="text-yellow-800 text-xs font-medium mt-2">
+                    ⏰ <span className="font-bold">Lembrete: </span>O pagamento deve ser feito até{" "}
+                    <span className="font-bold">18 de Junho</span>! Não perca a
+                    data!
+                  </div>
                 </div>
               </div>
             </div>
@@ -424,13 +478,17 @@ const Convite = () => {
                 <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
                   {minutos}
                 </div>
-                <div className="text-xs text-gray-600 uppercase tracking-wider">min</div>
+                <div className="text-xs text-gray-600 uppercase tracking-wider">
+                  min
+                </div>
               </div>
               <div className="text-center p-2">
                 <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
                   {segundos}
                 </div>
-                <div className="text-xs text-gray-600 uppercase tracking-wider">seg</div>
+                <div className="text-xs text-gray-600 uppercase tracking-wider">
+                  seg
+                </div>
               </div>
             </div>
           </div>
