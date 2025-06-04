@@ -55,15 +55,43 @@ const Convite = () => {
 
   const codigoPagamento = `00020126640014br.gov.bcb.pix0127gabriellly.lisboa@gmail.com0211Confra DS11520400005303986540555.005802BR5925Gabrielly de Sousa Lisboa6008Brasilia62230519daqr610587704497542630453F8`;
 
-  const copiarParaAreaDeTransferencia = () => {
-    // Cria um elemento input temporário para copiar o código
-    const textarea = document.createElement("textarea");
-    textarea.value = codigoPagamento;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
-    alert("Código copiado para a área de transferência!");
+  // Substitua a função copiarParaAreaDeTransferencia existente por esta versão corrigida:
+
+  const copiarParaAreaDeTransferencia = async () => {
+    try {
+      // Tenta usar a API moderna do Clipboard (funciona em navegadores modernos)
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(codigoPagamento);
+        alert("✅ Código PIX copiado com sucesso!");
+      } else {
+        // Fallback para navegadores mais antigos ou contextos não seguros
+        const textarea = document.createElement("textarea");
+        textarea.value = codigoPagamento;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-999999px";
+        textarea.style.top = "-999999px";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textarea);
+
+        if (successful) {
+          alert("✅ Código PIX copiado com sucesso!");
+        } else {
+          throw new Error("Falha ao copiar");
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao copiar código:", error);
+
+      // Como último recurso, mostra o código para o usuário copiar manualmente
+      const codigoFormatado = codigoPagamento.match(/.{1,50}/g).join("\n");
+      alert(
+        `❌ Não foi possível copiar automaticamente. Copie o código abaixo manualmente:\n\n${codigoFormatado}`
+      );
+    }
   };
 
   const Confetti = () => (
@@ -440,11 +468,12 @@ const Convite = () => {
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
                   <p className="text-yellow-800 text-xs font-medium">
-                    💡 <span className="font-bold">Importante: </span>Envie o comprovante de pagamento confirmando
-                    sua participação!
+                    💡 <span className="font-bold">Importante: </span>Envie o
+                    comprovante de pagamento confirmando sua participação!
                   </p>
                   <div className="text-yellow-800 text-xs font-medium mt-2">
-                    ⏰ <span className="font-bold">Lembrete: </span>O pagamento deve ser feito até{" "}
+                    ⏰ <span className="font-bold">Lembrete: </span>O pagamento
+                    deve ser feito até{" "}
                     <span className="font-bold">18 de Junho</span>! Não perca a
                     data!
                   </div>
