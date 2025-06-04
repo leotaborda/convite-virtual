@@ -144,7 +144,7 @@ const Presentes = () => {
   }, [filtroCategoria]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-yellow-50 p-4 md:p-6">
+    <div className="min-w-screen bg-gradient-to-br from-purple-50 via-pink-50 to-yellow-50 p-4 md:p-6">
       {/* Header com efeito glassmorphism */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-white/20 p-6 md:p-8">
