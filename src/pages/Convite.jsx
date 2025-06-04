@@ -371,7 +371,7 @@ const Convite = () => {
 
           <div className="mb-8 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
             <h3 className="text-center text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 mb-4">
-              💰 Valor e Pagamento
+              💲Valor e Pagamento💲
             </h3>
 
             <div className="text-center mb-6">
