@@ -352,8 +352,8 @@ const Convite = () => {
             </h3>
 
             <div className="text-center mb-6">
-              <div className="text-4xl font-bold text-green-600 mb-2">R$ 50,00</div>
-              <p className="text-gray-900 text-sm">por pessoa (rodízio completo)</p>
+              <div className="text-4xl font-bold text-green-600 mb-2">R$ 55,00</div>
+              <p className="text-gray-900 text-sm">por pessoa (<span className="font-bold ">rodízio completo com bebidas e pizzas a vontade</span>)</p>
             </div>
 
             <div className="bg-white rounded-lg p-4 shadow-inner">
