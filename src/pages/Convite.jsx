@@ -363,7 +363,7 @@ const Convite = () => {
 
               <div className="flex justify-center mb-4">
                 <div className="w-48 h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                  <img src="..\public\images\qr_code.png" alt="" />
+                  <img src="public/images/qr_code.png" alt="" />
                 </div>
               </div>
 
